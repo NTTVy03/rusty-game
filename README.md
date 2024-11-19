@@ -20,3 +20,6 @@ Join course: [Rust for the daily practitioner](https://bosch-bgsv.udemy.com/cour
         * Rotation: the angle in radians from the positive X axis
         * Scale
         * Layer: affects what sprite or text is "on top" of another sprite or text when they overlap
+    * [Sprite Collisions](https://cleancut.github.io/rusty_engine/65-sprite-collider.html)
+        * When two sprites begin or end overlapping, a `CollisionEvent` will be produced (example: `CollisionEvent { state: Begin, pair: CollisionPair("car1", "player") }`)
+        * Colliders are convex polygons that are used to detect if a collision has occurred between two sprites.
