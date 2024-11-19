@@ -27,3 +27,4 @@ Join course: [Rust for the daily practitioner](https://bosch-bgsv.udemy.com/cour
     * [Keyboard State](https://cleancut.github.io/rusty_engine/105-keyboard-state.html) or [Keyboard Events](https://cleancut.github.io/rusty_engine/110-keyboard-events.html)
     * [Mouse State](https://cleancut.github.io/rusty_engine/115-mouse-state.html) or [Mouse Events](https://cleancut.github.io/rusty_engine/120-mouse-events.html)
 8. [Text](https://cleancut.github.io/rusty_engine/150-text.html)
+9. [Sound](https://cleancut.github.io/rusty_engine/200-audio.html)
