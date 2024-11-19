@@ -1,25 +1,21 @@
-use bevy::core_pipeline::core_2d::graph::node::END_MAIN_PASS_POST_PROCESSING;
 use rusty_engine::prelude::*;
+use rand::Rng;
 
 // define a struct to store game-specific data
 // high score, player name, health left,...
 #[derive(Resource)]
 struct GameState {
-    high_score: u32,
     current_score: u32,
     ball_index: u32,
-    enemy_labels: Vec<String>,
     spawn_time: Timer,
 }
 
 impl Default for GameState {
     fn default() -> Self {
         Self {
-            high_score: 0,
             current_score: 0,
             ball_index: 0,
-            enemy_labels: Vec::new(),
-            spawn_time: Timer::from_seconds(1.0, TimerMode::Once),
+            spawn_time: Timer::from_seconds(3.0, TimerMode::Repeating),
         }
     }
 }
@@ -48,7 +44,8 @@ fn main() {
     // register logic functions to run each frame
     game.add_logic(manage_collisions);
     game.add_logic(player_movement);
-    game.add_logic(add_balls);
+    game.add_logic(add_balls_by_click);
+    game.add_logic(add_balls_by_timer);
     game.add_logic(update_score_text);
 
     game.run(GameState::default());
@@ -57,7 +54,7 @@ fn main() {
 fn manage_collisions(engine: &mut Engine, game_state: &mut GameState) {
     for event in engine.collision_events.drain(..) {
         // sound effect
-        engine.audio_manager.play_sfx(SfxPreset::Jingle1, 1);
+        engine.audio_manager.play_sfx(SfxPreset::Jingle1, 1.0);
 
         // remove the sprite that the player collided with
         let collided_sprited = if event.pair.0 == "player" {
@@ -89,7 +86,7 @@ fn player_movement(engine: &mut Engine, game_state: &mut GameState) {
     }
 }
 
-fn add_balls(engine: &mut Engine, game_state: &mut GameState) {
+fn add_balls_by_click(engine: &mut Engine, game_state: &mut GameState) {
     // just_pressed: one click - one ball
     if engine.mouse_state.just_pressed(MouseButton::Left) {
         if let Some(location) = engine.mouse_state.location() {
@@ -100,6 +97,18 @@ fn add_balls(engine: &mut Engine, game_state: &mut GameState) {
 
             game_state.ball_index += 1;
         }
+    }
+}
+
+fn add_balls_by_timer(engine: &mut Engine, game_state: &mut GameState) {
+    if game_state.spawn_time.tick(engine.delta).just_finished() {
+        let ball_index = format!("ball{}", game_state.ball_index);
+        let ball = engine.add_sprite(ball_index, SpritePreset::RollingBallRed);
+        ball.translation.x = rand::thread_rng().gen_range(-550.0..550.0);
+        ball.translation.y = rand::thread_rng().gen_range(-325.0..325.0);
+        ball.collision = true;
+
+        game_state.ball_index += 1;
     }
 }
 

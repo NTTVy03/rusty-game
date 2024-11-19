@@ -2,7 +2,9 @@
 
 Make a game with Rusty engine
 
-Join course: [Rust for the daily practitioner](https://bosch-bgsv.udemy.com/course/ultimate-rust-2/learn/lecture/32352640#overview); OR follow this tutorial: [Rusty Engine Tutorial](https://cleancut.github.io/rusty_engine/)
+Join course: [Rust for the daily practitioner](https://bosch-bgsv.udemy.com/course/ultimate-rust-2/learn/lecture/32352640#overview); 
+
+## About [Rusty Engine Tutorial](https://cleancut.github.io/rusty_engine/)
 
 1. [Configuration](https://cleancut.github.io/rusty_engine/05-config.html)
 2. [Asset pack](https://cleancut.github.io/rusty_engine/10-assets.html)
@@ -28,3 +30,9 @@ Join course: [Rust for the daily practitioner](https://bosch-bgsv.udemy.com/cour
     * [Mouse State](https://cleancut.github.io/rusty_engine/115-mouse-state.html) or [Mouse Events](https://cleancut.github.io/rusty_engine/120-mouse-events.html)
 8. [Text](https://cleancut.github.io/rusty_engine/150-text.html)
 9. [Sound](https://cleancut.github.io/rusty_engine/200-audio.html)
+10. [Timer](https://cleancut.github.io/rusty_engine/250-timer.html)
+11. [Engine](https://cleancut.github.io/rusty_engine/400-engine.html)
+12. [Game](https://cleancut.github.io/rusty_engine/450-game.html)
+
+## Sample Games
+[Rustty Engine - Examples](https://github.com/CleanCut/rusty_engine/tree/main/examples)
