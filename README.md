@@ -23,3 +23,5 @@ Join course: [Rust for the daily practitioner](https://bosch-bgsv.udemy.com/cour
     * [Sprite Collisions](https://cleancut.github.io/rusty_engine/65-sprite-collider.html)
         * When two sprites begin or end overlapping, a `CollisionEvent` will be produced (example: `CollisionEvent { state: Begin, pair: CollisionPair("car1", "player") }`)
         * Colliders are convex polygons that are used to detect if a collision has occurred between two sprites.
+7. [Input](https://cleancut.github.io/rusty_engine/100-input.html): process input from the user (keyboard and mouse input)
+    * [Keyboard State](https://cleancut.github.io/rusty_engine/105-keyboard-state.html) or [Keyboard Events](https://cleancut.github.io/rusty_engine/110-keyboard-events.html)

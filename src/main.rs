@@ -1,6 +1,4 @@
-use bevy::{scene::serde::ENTITY_FIELD_COMPONENTS, utils::label};
-use bevy_ecs::event::event_update_condition;
-use rusty_engine::{game, prelude::*};
+use rusty_engine::prelude::*;
 
 // define a struct to store game-specific data
 // high score, player name, health left,...
@@ -30,20 +28,19 @@ fn main() {
     player.translation = Vec2::new(0.0, 0.0);
     player.collision = true;
 
-    let car1 = game.add_sprite("car1", SpritePreset::RacingCarYellow);
-    car1.translation = Vec2::new(300.0, 0.0);
-    car1.collision = true;
+    let red_ball = game.add_sprite("red_ball", SpritePreset::RollingBallRed);
+    red_ball.translation = Vec2::new(300.0, 0.0);
+    red_ball.collision = true;
 
     // register logic functions to run each frame
-    game.add_logic(game_logic);
+    game.add_logic(manage_collisions);
+    game.add_logic(player_movement);
 
     game.run(GameState::default());
 }
 
-fn game_logic(engine: &mut Engine, game_state: &mut GameState) {
+fn manage_collisions(engine: &mut Engine, game_state: &mut GameState) {
     for event in engine.collision_events.drain(..) {
-        // println!("{:?}", event);
-
         // remove the sprite that the player collided with
         let collided_sprited = if event.pair.0 == "player" {
             event.pair.1
@@ -58,8 +55,19 @@ fn game_logic(engine: &mut Engine, game_state: &mut GameState) {
             println!("Current score: {}", game_state.current_score);
         }
     }
+}
 
-    // make player's car move right
+fn player_movement(engine: &mut Engine, game_state: &mut GameState) {
     let player = engine.sprites.get_mut("player").unwrap();
-    player.translation.x += 100.0 * engine.delta_f32;
+    const MOVEMENT_SPEED: f32 = 100.0;
+
+    if engine.keyboard_state.pressed(KeyCode::Up) {
+        player.translation.y += MOVEMENT_SPEED * engine.delta_f32;
+    } else if engine.keyboard_state.pressed(KeyCode::Down) {
+        player.translation.y -= MOVEMENT_SPEED * engine.delta_f32;
+    } else if engine.keyboard_state.pressed(KeyCode::Left) {
+        player.translation.x -= MOVEMENT_SPEED * engine.delta_f32;
+    } else if engine.keyboard_state.pressed(KeyCode::Right) {
+        player.translation.x += MOVEMENT_SPEED * engine.delta_f32;
+    }
 }
