@@ -1,3 +1,4 @@
+use bevy::core_pipeline::core_2d::graph::node::END_MAIN_PASS_POST_PROCESSING;
 use rusty_engine::prelude::*;
 
 // define a struct to store game-specific data
@@ -30,10 +31,22 @@ fn main() {
     player.translation = Vec2::new(0.0, 0.0);
     player.collision = true;
 
+    // create texts
+    let title = game.add_text("title", "Rusty Game");
+    title.font = "font/FiraMono-Medium.ttf".to_string();
+    title.font_size = 96.0;
+    title.translation = Vec2::new(400.0, -325.0);
+
+    let score = game.add_text("score", "Score: {}");
+    score.font = "font/FiraMono-Medium.ttf".to_string();
+    score.font_size = 50.0;
+    score.translation = Vec2::new(400.0, -225.0);
+
     // register logic functions to run each frame
     game.add_logic(manage_collisions);
     game.add_logic(player_movement);
     game.add_logic(add_balls);
+    game.add_logic(update_score_text);
 
     game.run(GameState::default());
 }
@@ -53,7 +66,6 @@ fn manage_collisions(engine: &mut Engine, game_state: &mut GameState) {
         // inscrease score for player
         if event.state == CollisionState::Begin {
             game_state.current_score += 1;
-            println!("Current score: {}", game_state.current_score);
         }
     }
 }
@@ -75,7 +87,7 @@ fn player_movement(engine: &mut Engine, game_state: &mut GameState) {
 
 fn add_balls(engine: &mut Engine, game_state: &mut GameState) {
     // just_pressed: one click - one ball
-    if engine.mouse_state.just_pressed (MouseButton::Left) {
+    if engine.mouse_state.just_pressed(MouseButton::Left) {
         if let Some(location) = engine.mouse_state.location() {
             let ball_index = format!("ball{}", game_state.ball_index);
             let ball = engine.add_sprite(ball_index, SpritePreset::RollingBallRed);
@@ -85,4 +97,9 @@ fn add_balls(engine: &mut Engine, game_state: &mut GameState) {
             game_state.ball_index += 1;
         }
     }
+}
+
+fn update_score_text(engine: &mut Engine, game_state: &mut GameState) {
+    let score = engine.texts.get_mut("score").unwrap();
+    score.value = format!("Score: {}", game_state.current_score);
 }
